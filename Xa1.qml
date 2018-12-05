@@ -7,6 +7,8 @@ import QtQuick.Window 2.0
 Item {
     id:r
     anchors.fill: parent
+    property alias maximizado: cb1.checked
+    property alias fullScreen: cb2.checked
     onVisibleChanged: {
         if(visible){
             tiAnVent.focus=true
@@ -14,6 +16,7 @@ Item {
     }
     Settings{
         id:rs
+        category:'conf-'+app.moduleName+'-area1'
         property bool maximizado
         property bool fullScreen
         property int an

@@ -7,8 +7,12 @@ Item {
     property int a: -1
     property int cantA: 3
 
-    Xa0{id:xa0;visible: r.a===0}
-    Xa1{id:xa1;visible: r.a===1}
+    Xaa{id:xa;visible: r.a===0}
+    Xa0{id:xa0;visible: r.a===1}
+    Xa1{id:xa1;visible: r.a===2}
+    Xa2{id:xa2;visible: r.a===3}
+    Xa3{id:xa3;visible: r.a===4}
+    Xaf{id:xaf;visible: r.a===5}
 
     Timer{
         running: r.visible
