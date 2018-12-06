@@ -230,7 +230,7 @@ Item {
             if(i!==0){
                 c+='                Rectangle{\n'
                 c+='                    width:2\n'
-                c+='                    height:app.fs*1.4\n'
+                c+='                    height:xr.height\n'
                 c+='                    color:"gray"\n'
                 c+='                }\n'
             }
