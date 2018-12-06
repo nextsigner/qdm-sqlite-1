@@ -193,6 +193,8 @@ Item {
         }
         c+='){\n'
         c+='                return{\n'
+
+        var anchoColId=(''+xa3.cantCols).length
         for(var i=0;i<xa3.cantCols+1;i++){
             if(i===0){
                 c+='t'+i+': vt'+i+''
@@ -235,9 +237,15 @@ Item {
             c+='                Text{\n'
             c+='                    id:c'+i+'\n'
             c+='                    text:t'+i+'\n'
-            c+='                    horizontalAlignment: Text.AlignHCenter\n'
+            c+='                    wrapMode: Text.WrapAnywhere\n'
+            //c+='                    horizontalAlignment: Text.AlignHCenter\n'
             c+='                    font.pixelSize:app.fs\n'
-            c+=i===0?'                    width:contentWidth+app.fs*0.5\n':'                    width:(xr.parent.width-(c0.contentWidth+app.fs*0.5))/'+parseInt(xa3.cantCols+1)+'\n'
+            c+=i===0?'                    width:app.fs*'+anchoColId+'\n':'                    width:(xr.parent.width-(c0.contentWidth+app.fs*0.5))/'+parseInt(xa3.cantCols+1)+'\n'
+            c+='                    onContentHeightChanged:{\n'
+            c+='                        if(contentHeight>parent.parent.height){\n'
+            c+='                                parent.parent.height=contentHeight+app.fs\n'
+            c+='                        }\n'
+            c+='                    }\n'
             c+='                }\n'
 
         }
@@ -249,6 +257,7 @@ Item {
 
 
         c+='    function actualizarLista(){\n'//-->actualizarLista()
+        c+='        lm.clear()\n'
         c+='        var filas=unik.getSqlData("select * from tabla1")\n'
 
         c+='        for(var i=0;i<filas.length;i++){\n'
