@@ -80,6 +80,10 @@ Item {
         console.log('Carpeta de Destino: '+carpetaDestino)
         unik.mkdir(carpetaDestino)
 
+        unik.sqliteInit(xa0.nomApp+'.sqlite')
+        var c0="drop table if exists tabla1"
+        unik.sqlQuery(c0)
+
         var c=''
 
         c+='import QtQuick 2.0\n'
@@ -130,8 +134,8 @@ Item {
         c+='        unik.sqliteInit("'+xa0.nomApp+'.sqlite")\n'
 
 
-        c+='        var c0="drop table if exists tabla1"\n'
-        c+='        unik.sqlQuery(c0)\n'
+        //c+='        var c0="drop table if exists tabla1"\n'
+        //c+='        unik.sqlQuery(c0)\n'
 
 
         c+='        var c1="CREATE TABLE IF NOT EXISTS tabla1("\n'
@@ -160,6 +164,12 @@ Item {
         c+='Item{\n'
         c+='    anchors.fill: parent\n'
 
+        c+='    onVisibleChanged: {\n'
+        c+='        if(visible){\n'
+        c+='            actualizarLista()\n'
+        c+='         }\n'
+        c+='    }\n'
+
         c+='    ListView{\n'//-->1
         c+='                width: parent.width\n'
         c+='                height: parent.height-app.fs*1.4\n'
@@ -169,13 +179,27 @@ Item {
         c+='                model:lm\n'
         c+='    }\n'//--1
 
+        var a1=(''+xa3.arrNomCols).split(',')
+        var a2=(''+xa3.arrTipoCols).split(',')
         c+='    ListModel{\n'//-->2
         c+='        id: lm\n'
-        c+='        function add(vt1, vt2, vt3){\n'
+        c+='        function add('
+        for(var i=0;i<xa3.cantCols+1;i++){
+            if(i===0){
+                c+='vt'+i
+            }else{
+                c+=',vt'+i
+            }
+        }
+        c+='){\n'
         c+='                return{\n'
-        c+='                    t1: vt1,\n'
-        c+='                    t2: vt2,\n'
-        c+='                    t3: vt3\n'
+        for(var i=0;i<xa3.cantCols+1;i++){
+            if(i===0){
+                c+='t'+i+': vt'+i+''
+            }else{
+                c+=',\nt'+i+': vt'+i
+            }
+        }
         c+='                }\n'
         c+='        }\n'
         c+='    }\n'//--2
@@ -190,38 +214,58 @@ Item {
         c+='    Component{\n'
         c+='                id:del\n'
         c+='        Rectangle{\n'
+        c+='            id:xr\n'
         c+='            width: parent.width\n'
-        c+='            height: 30\n'
+        c+='            height: app.fs*1.4\n'
         c+='            radius:6\n'
         c+='            border.width:2\n'
         c+='            border.color:"gray"\n'
+        c+='            clip:true\n'
         c+='            Row{\n'
         c+='                anchors.centerIn: parent\n'
-        c+='                spacing: 10\n'
-        c+='                Text{\n'
-        c+='                    text:t1\n'
-        c+='                    font.pixelSize:24\n'
-        c+='                }\n'
-        c+='                Text{\n'
-        c+='                    text:t2\n'
-        c+='                    font.pixelSize:24\n'
-        c+='                }\n'
-        c+='                Text{\n'
-        c+='                    text:t3\n'
-        c+='                    font.pixelSize:24\n'
-        c+='                }\n'
+        c+='                spacing: app.fs*0.5\n'
+        for(var i=0;i<xa3.cantCols+1;i++){
+            if(i!==0){
+                c+='                Rectangle{\n'
+                c+='                    width:2\n'
+                c+='                    height:app.fs*1.4\n'
+                c+='                    color:"gray"\n'
+                c+='                }\n'
+            }
+            c+='                Text{\n'
+            c+='                    id:c'+i+'\n'
+            c+='                    text:t'+i+'\n'
+            c+='                    horizontalAlignment: Text.AlignHCenter\n'
+            c+='                    font.pixelSize:app.fs\n'
+            c+=i===0?'                    width:contentWidth+app.fs*0.5\n':'                    width:(xr.parent.width-(c0.contentWidth+app.fs*0.5))/'+parseInt(xa3.cantCols+1)+'\n'
+            c+='                }\n'
+
+        }
         c+='            }\n'
 
 
         c+='        }\n'
         c+='    }\n'
 
-        c+='    function actualizarLista(){\n'
-        //c+='        lm.append(lm.add("aaa", "bbb", "cccc"))\n'
-        c+='    }\n'
+
+        c+='    function actualizarLista(){\n'//-->actualizarLista()
+        c+='        var filas=unik.getSqlData("select * from tabla1")\n'
+
+        c+='        for(var i=0;i<filas.length;i++){\n'
+        c+='            lm.append(lm.add( '
+        for(var i=0;i<xa3.cantCols+1;i++){
+            if(i===0){
+                c+='filas[i].col['+i+']'
+            }else{
+                c+=', filas[i].col['+i+']'
+            }
+        }
+        c+='))\n'
+        c+='        }\n'
+        c+='    }\n'//--actualizarLista()
 
         c+='    Component.onCompleted:{\n'
-        c+='        lm.append(lm.add("aaa", "bbb", "cccc"))\n'
+        c+='        actualizarLista()\n'
         c+='    }\n'
 
         c+='}\n'
@@ -235,7 +279,7 @@ Item {
         c+='Item{\n'
         c+='    id:r\n'
 
-       c+='    Flickable{\n'//-->1
+        c+='    Flickable{\n'//-->1
         c+='        anchors.fill:parent\n'
         c+='        contentWidth:parent.width\n'
         c+='        contentHeight:col1.height\n'
@@ -243,8 +287,7 @@ Item {
         c+='            id:col1\n'
         c+='            spacing: app.fs*2\n'
 
-        var a1=(''+xa3.arrNomCols).split(',')
-        var a2=(''+xa3.arrTipoCols).split(',')
+
         for(var i=0;i<xa3.cantCols;i++){
             c+=parseInt(a2[i])===0?'        Column{\n':'        Row{\n'//-->3
             c+='           spacing: app.fs*0.5\n'
