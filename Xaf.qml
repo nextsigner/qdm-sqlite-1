@@ -98,6 +98,11 @@ Item {
         c+=xa1.maximizado?'    visibility: "Maximized"\n':''
         c+='    property int fs: width*0.03\n'
         c+='    property int area: 0\n'
+        c+='    onClosing: {\n'
+        c+='        close.accepted=false\n'
+        c+='        unik.sqliteClose()\n'
+        c+='        Qt.quit()\n'
+        c+='    }\n'
 
         c+='    Row{\n'//-->4
         c+='            height: app.fs*1.4\n'
