@@ -21,6 +21,8 @@ Item {
         property int cantCols
         property string arrNomCols
         property string arrTipoCols
+        onArrNomColsChanged: r.parent.cambiaTabla=true
+        onArrTipoColsChanged: r.parent.cambiaTabla=true
     }
     Flickable{
         width: r.width

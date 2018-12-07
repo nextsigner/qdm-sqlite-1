@@ -7,6 +7,7 @@ import QtQuick.Window 2.0
 Item {
     id:r
     anchors.fill: parent
+    property alias nomBD: tiNomBD.text
     onVisibleChanged: {
         if(visible){
             tiNomBD.focus=true

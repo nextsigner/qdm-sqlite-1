@@ -12,6 +12,7 @@ Item {
     property alias an: tiAnVent.text
     property alias al: tiAlVent.text
     property alias color: rs.color
+    property alias colorLetra: rs.colorLetra
 
 
     onVisibleChanged: {
@@ -27,6 +28,7 @@ Item {
         property int an
         property int al
         property string color
+        property string colorLetra
     }
     Column{
         spacing: app.fs
@@ -167,12 +169,48 @@ Item {
                 id:botColor
                 text:'<b>Seleccionar Color</b>'
                 font.pixelSize: app.fs
-                onClicked: colorDialog.visible=true
-                Keys.onReturnPressed: colorDialog.visible=true
+                onClicked: getColor()
+                Keys.onReturnPressed: getColor()
                 KeyNavigation.tab: botSiguiente
                 anchors.verticalCenter: parent.verticalCenter
+                function getColor(){
+                    colorDialog.color=rs.color
+                    colorDialog.visible=true
+                }
             }
         }
+        Row{
+            spacing: app.fs*0.5
+            height: app.fs*1.4
+            Text{
+                text:'Color de Letra: '+rs.colorLetra
+                font.pixelSize: app.fs
+                color:app.c2
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Rectangle{
+                width: app.fs*3
+                height: app.fs
+                color: rs.colorLetra
+                anchors.verticalCenter: parent.verticalCenter
+                border.width: 2
+                border.color: app.c2
+            }
+            Button{
+                id:botColorLetra
+                text:'<b>Seleccionar Color</b>'
+                font.pixelSize: app.fs
+                onClicked: getColor()
+                Keys.onReturnPressed: getColor()
+                KeyNavigation.tab: botSiguiente
+                anchors.verticalCenter: parent.verticalCenter
+                function getColor(){
+                    colorDialog2.color=rs.colorLetra
+                    colorDialog2.visible=true
+                }
+            }
+        }
+
         Row{
             spacing: app.fs*0.5
             anchors.right: parent.right
@@ -197,9 +235,16 @@ Item {
     }
     ColorDialog {
         id: colorDialog
-        title: "Seleccionar el color de la Ventana"
+        title: "Seleccionar el color de la Ventana"       
         onAccepted: {
             rs.color=colorDialog.color
+        }
+    }
+    ColorDialog {
+        id: colorDialog2
+        title: "Seleccionar el color de la Letra"
+        onAccepted: {
+            rs.colorLetra=colorDialog2.color
         }
     }
     Component.onCompleted: {

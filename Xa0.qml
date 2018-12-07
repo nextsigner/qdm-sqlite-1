@@ -22,7 +22,6 @@ Item {
     Column{
         spacing: app.fs*0.5
         anchors.centerIn: parent
-
         Text{
             text:'Nombre de la Aplicaciòn a crear'
             font.pixelSize: app.fs

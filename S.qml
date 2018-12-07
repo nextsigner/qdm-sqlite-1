@@ -6,6 +6,7 @@ Item {
     height: app.al-app.fs*2
     property int a: -1
     property int cantA: 3
+    property bool cambiaTabla: false
 
     Xaa{id:xa;visible: r.a===0}
     Xa0{id:xa0;visible: r.a===1}
