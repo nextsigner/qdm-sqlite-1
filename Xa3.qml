@@ -30,7 +30,7 @@ Item {
         Column{
             id:col1
             spacing: app.fs*0.5
-           anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             Row{
                 spacing: app.fs*0.5
                 height: app.fs*1.4
@@ -70,13 +70,24 @@ Item {
                 spacing: app.fs*0.25
                 height: (children.length)*app.fs*1.4+((children.length-1)*app.fs*0.25)
             }
-            Button{
-                id:botSiguiente
-                text:'<b>Siguiente</b>'
-                font.pixelSize: app.fs
-                onClicked: next()
-                Keys.onReturnPressed: next()
+            Row{
+                spacing: app.fs*0.5
                 anchors.right: parent.right
+                Button{
+                    id:botAtras
+                    text:'<b>Atras</b>'
+                    font.pixelSize: app.fs
+                    onClicked: r.parent.a--
+                    Keys.onReturnPressed: r.parent.a--
+                    KeyNavigation.tab: botSiguiente
+                }
+                Button{
+                    id:botSiguiente
+                    text:'<b>Siguiente</b>'
+                    font.pixelSize: app.fs
+                    onClicked: next()
+                    Keys.onReturnPressed: next()
+                }
             }
         }
     }

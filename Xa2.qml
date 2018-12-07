@@ -54,15 +54,26 @@ Item {
                 }
             }
          }
-        Button{
-            id:botSiguiente
-            text:'<b>Siguiente</b>'
-            font.pixelSize: app.fs
-            onClicked: r.parent.a++
-            Keys.onReturnPressed: r.parent.a++
+        Row{
+            spacing: app.fs*0.5
             anchors.right: parent.right
-            enabled: tiNomBD.text!==''
-            KeyNavigation.tab: tiNomBD
+            Button{
+                id:botAtras
+                text:'<b>Atras</b>'
+                font.pixelSize: app.fs
+                onClicked: r.parent.a--
+                Keys.onReturnPressed: r.parent.a--
+                KeyNavigation.tab: botSiguiente
+            }
+            Button{
+                id:botSiguiente
+                text:'<b>Siguiente</b>'
+                font.pixelSize: app.fs
+                onClicked: r.parent.a++
+                Keys.onReturnPressed: r.parent.a++
+                enabled: tiNomBD.text!==''
+                KeyNavigation.tab: tiNomBD
+            }
         }
     }
     Component.onCompleted: {

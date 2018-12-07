@@ -9,6 +9,11 @@ Item {
     anchors.fill: parent
     property alias maximizado: cb1.checked
     property alias fullScreen: cb2.checked
+    property alias an: tiAnVent.text
+    property alias al: tiAlVent.text
+    property alias color: rs.color
+
+
     onVisibleChanged: {
         if(visible){
             tiAnVent.focus=true
@@ -42,7 +47,12 @@ Item {
                 checked: rs.maximizado
                 font.pixelSize:app.fs
                 KeyNavigation.tab: cb2
-                onCheckedChanged: rs.maximizado=checked
+                onCheckedChanged: {
+                    if(checked){
+                        rs.maximizado=checked
+                        cb2.checked=false
+                    }
+                }
             }
             Item{width: app.fs*3;height: 10}
             Text{
@@ -55,7 +65,12 @@ Item {
                 checked: rs.fullScreen
                 font.pixelSize:app.fs
                 KeyNavigation.tab: tiAnVent
-                onCheckedChanged: rs.fullScreen=checked
+                onCheckedChanged: {
+                    if(checked){
+                        rs.fullScreen=checked
+                        cb1.checked=false
+                    }
+                }
             }
         }
         Row{
@@ -158,15 +173,26 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
-        Button{
-            id:botSiguiente
-            text:'<b>Siguiente</b>'
-            font.pixelSize: app.fs
-            onClicked: r.parent.a++
-            Keys.onReturnPressed: r.parent.a++
+        Row{
+            spacing: app.fs*0.5
             anchors.right: parent.right
-            enabled: tiAnVent.v&&tiAlVent.v
-            KeyNavigation.tab: cb1
+            Button{
+                id:botAtras
+                text:'<b>Atras</b>'
+                font.pixelSize: app.fs
+                onClicked: r.parent.a--
+                Keys.onReturnPressed: r.parent.a--
+                KeyNavigation.tab: botSiguiente
+            }
+            Button{
+                id:botSiguiente
+                text:'<b>Siguiente</b>'
+                font.pixelSize: app.fs
+                onClicked: r.parent.a++
+                Keys.onReturnPressed: r.parent.a++
+                enabled: tiAnVent.v&&tiAlVent.v
+                KeyNavigation.tab: cb1
+            }
         }
     }
     ColorDialog {
