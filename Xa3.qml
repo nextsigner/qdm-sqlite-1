@@ -11,7 +11,7 @@ Item {
     property alias arrTipoCols: rs.arrTipoCols
     onVisibleChanged:{
         if(visible){
-            tiCantCols.focus=true
+            spCantCols.focus=true
         }
     }
     Behavior on opacity{NumberAnimation{duration:1500}}
@@ -41,29 +41,17 @@ Item {
                     font.pixelSize: app.fs
                     color:app.c2
                 }
-                Rectangle{
-                    width: app.fs*2
+                SpinBox{
+                    id:spCantCols
+                    from: 1
+                    to: 8
                     height: app.fs*1.4
-                    border.width: 2
-                    border.color: app.c2
-                    radius: app.fs*0.25
-                    color:'transparent'
-                    TextInput{
-                        id:tiCantCols
-                        font.pixelSize: app.fs
-                        width: parent.width-app.fs
-                        height: app.fs
-                        anchors.centerIn: parent
-                        color:app.c2
-                        text: rs.cantCols
-                        maximumLength: 2
-                        validator : RegExpValidator { regExp : /[0-9]{2}/ }
-                        Keys.onReturnPressed: botSiguiente.focus=true
-                        KeyNavigation.tab: botSiguiente
-                        onTextChanged: {
-                            rs.cantCols=parseInt(text)
-                            setCols()
-                        }
+                    font.pixelSize: app.fs
+                    value: parseInt(rs.cantCols)
+                    KeyNavigation.tab: cc.children[0].f=true
+                    onValueChanged:  {
+                        rs.cantCols=value
+                        setCols()
                     }
                 }
             }
@@ -71,6 +59,12 @@ Item {
                 id:cc
                 spacing: app.fs*0.25
                 height: (children.length)*app.fs*1.4+((children.length-1)*app.fs*0.25)
+                function next(i){
+                    cc.children[i+1].f=true
+                }
+                function asig(){
+                    botSiguiente.focus=true
+                }
             }
             Row{
                 spacing: app.fs*0.5
@@ -126,7 +120,7 @@ Item {
         for(var i=0;i<cc.children.length;i++){
             cc.children[i].destroy(0)
         }
-        for(var i=0;i<parseInt(tiCantCols.text);i++){
+        for(var i=0;i<spCantCols.value;i++){
             var n
             var n2=0
             var arrnl=rs.arrNomCols.split(',')
@@ -137,8 +131,9 @@ Item {
             }else{
                 n='col'+i
             }
+            var isLast=spCantCols.value-1===i
             c=Qt.createComponent('Fnc.qml')
-            obj=c.createObject(cc, {"nom": ""+n, "t": n2});
+            obj=c.createObject(cc, {"nom": ""+n, "t": n2, "index": i, "islast": isLast});
         }
     }
 }

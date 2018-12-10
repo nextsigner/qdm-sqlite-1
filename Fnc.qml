@@ -5,14 +5,18 @@ Row{
     id:r
     height: app.fs*1.4
     spacing: app.fs*0.5
+    property int index
+    property bool islast:false
     property string nom
     property alias t: cb1.currentIndex
+    property alias f: tiNomCol.focus
+
 
     Rectangle{
         width: app.fs*12
         height: app.fs*1.4
         border.width: 2
-        border.color: children[0].v?app.c2:'red'
+        border.color: app.c2
         radius: app.fs*0.25
         color:'transparent'
         TextInput{
@@ -23,22 +27,25 @@ Row{
             anchors.centerIn: parent
             color:app.c2
             text:r.nom
-            property bool v:false
             maximumLength: 15
             validator : RegExpValidator { regExp : /^\S+$[^@\^\+\*#~¿?¡!.\/]+^\S+$/ }
             onTextChanged: r.nom=text
-            //Keys.onReturnPressed: tiAlVent.focus=true
-            //KeyNavigation.tab: tiAlVent
+            KeyNavigation.tab: cb1
         }
     }
     Text{
         text:'Tipo'
     }
-    ComboBox{
-       id:cb1
-       width: app.fs*10
-       model:["TEXTO", "NUMERO"]
-       font.pixelSize: app.fs
+    UnikComboBox{
+        id:cb1
+        Keys.onTabPressed: {
+            if(!r.islast){
+                r.parent.next(r.index)
+            }else{
+                r.parent.asig()
+            }
+
+        }
     }
 }
 
