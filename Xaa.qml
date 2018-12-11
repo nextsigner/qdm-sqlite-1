@@ -8,7 +8,8 @@ Item {
     opacity: visible?1.0:0.0
     onVisibleChanged:{
         if(visible){
-            botCom.focus=true
+            botCom.focus=true           
+            app.mp.source=''
         }
     }
     Behavior on opacity{NumberAnimation{duration:1500}}

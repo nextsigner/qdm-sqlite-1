@@ -7,10 +7,14 @@ import QtQuick.Window 2.0
 Item {
     id:r
     anchors.fill: parent
+    visible: r.a===3
+    opacity: visible?1.0:0.0
     property alias nomBD: tiNomBD.text
     onVisibleChanged: {
         if(visible){
             tiNomBD.focus=true
+            app.mp.source='./s3.m4a'
+            app.mp.play()
         }
     }
     Settings{

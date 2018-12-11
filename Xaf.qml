@@ -5,35 +5,35 @@ import Qt.labs.settings 1.0
 Item {
     id:r
     anchors.fill: parent
+    visible: r.a===4
     opacity: visible?1.0:0.0
-    //    onVisibleChanged:{
-    //        if(visible){
-    //            tiCantCols.focus=true
-    //        }
-    //    }
+    onVisibleChanged:{
+        if(visible){
+            app.mp.source='./s5.m4a'
+            app.mp.play()
+        }
+    }
     Behavior on opacity{NumberAnimation{duration:1500}}
-    //    Settings{
-    //        id:rs
-    //        category:'conf-'+app.moduleName+'-area3'
-    //        property int cantCols
-    //        property string arrNomCols
-    //        property string arrTipoCols
-    //    }
+
     Column{
         id:col1
         spacing: app.fs*0.5
         anchors.centerIn: r
         Text{
-            text:'Finalizar con la creaciòn de la Aplicaciòn'
+            text:'<b>Finalizar con la creaciòn de la Aplicaciòn</b>'
             font.pixelSize: app.fs
             color:app.c2
         }
         Row{
             spacing: app.fs*0.5
-            height: app.fs*1.4
+            height: txtAvisoFinal.contentHeight
             Text{
-                text:'Finalizar con la creaciòn de la Aplicaciòn'
-                font.pixelSize: app.fs
+                id:txtAvisoFinal
+                text:'<br><br><b>Atenciòn!</b><br>Los datos que has ingresado, si coniciden con datos anteriores que haya utilizado en esta aplicaciòn, posiblemente eliminen o borren archivos y/o bases de datos sqlite existentes.<br><br>Se editaràn todos los archivos '+appsDir+'/'+xa0.nomApp+'/*.qml<br>Se crearà y/o modificarà el archivo '+appsDir+'/'+xa0.nomApp+'/'+xa2.nomBD+'.sqlite<br><br>'
+                width: r.width*0.75
+                wrapMode: Text.WordWrap
+                textFormat: Text.RichText
+                font.pixelSize: app.fs*0.65
                 color:app.c2
             }
         }

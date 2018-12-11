@@ -11,6 +11,8 @@ Item {
     onVisibleChanged:{
         if(visible){
             tiNomApp.focus=true
+            app.mp.source='./s1.m4a'
+            app.mp.play()
         }
     }
     Behavior on opacity{NumberAnimation{duration:1500}}

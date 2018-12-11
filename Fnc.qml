@@ -11,7 +11,6 @@ Row{
     property alias t: cb1.currentIndex
     property alias f: tiNomCol.focus
 
-
     Rectangle{
         width: app.fs*12
         height: app.fs*1.4
@@ -32,9 +31,6 @@ Row{
             onTextChanged: r.nom=text
             KeyNavigation.tab: cb1
         }
-    }
-    Text{
-        text:'Tipo'
     }
     UnikComboBox{
         id:cb1

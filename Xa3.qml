@@ -5,6 +5,7 @@ import Qt.labs.settings 1.0
 Item {
     id:r
     anchors.fill: parent
+    visible: r.a===3
     opacity: visible?1.0:0.0
     property alias cantCols: rs.cantCols
     property alias arrNomCols: rs.arrNomCols
@@ -12,6 +13,9 @@ Item {
     onVisibleChanged:{
         if(visible){
             spCantCols.focus=true
+            app.mp.source='./s4.m4a'
+            app.mp.play()
+
         }
     }
     Behavior on opacity{NumberAnimation{duration:1500}}
